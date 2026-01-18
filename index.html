@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHILS MÜTZEN - Offizielle Homepage</title>
+    <style>
+        @keyframes rainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        body {
+            background: #008080;
+            font-family: Arial, sans-serif;
+            color: #000000;
+            margin: 20px;
+        }
+        
+        table {
+            background: #ffffff;
+            border: 0;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-family: 'Comic Sans MS', cursive;
+            color: #ff0000;
+            text-align: center;
+            font-size: 2.5em;
+            margin: 20px 0;
+            animation: rainbow 3s linear infinite;
+        }
+        
+        h2 {
+            color: #0000ff;
+            font-size: 1.5em;
+            border-bottom: 2px solid #000000;
+            padding-bottom: 5px;
+        }
+        
+        a {
+            color: #0000ee;
+            text-decoration: underline;
+        }
+        
+        a:visited {
+            color: #551a8b;
+        }
+        
+        marquee {
+            background: #ffff00;
+            padding: 5px;
+            border: 1px solid #000000;
+            font-weight: bold;
+        }
+        
+        .center {
+            text-align: center;
+        }
+        
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .product-table td {
+            border: 2px solid #000000;
+            padding: 15px;
+            vertical-align: top;
+            width: 50%;
+        }
+        
+        .price {
+            background: #ff0000;
+            color: #ffffff;
+            padding: 5px 10px;
+            font-weight: bold;
+            font-size: 1.2em;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        
+        .blink {
+            animation: blink 1s steps(1) infinite;
+        }
+        
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        
+        hr {
+            border: 0;
+            height: 2px;
+            background: #000000;
+        }
+        
+        .counter {
+            background: #c0c0c0;
+            border: 2px solid #000000;
+            padding: 10px;
+            text-align: center;
+            font-family: monospace;
+            margin: 10px 0;
+        }
+        
+        img {
+            border: 3px solid #000000;
+        }
+    </style>
+</head>
+<body>
+
+<table cellpadding="20" cellspacing="0">
+<tr>
+    <td>
+        
+        <h1>🧶 PHILS MÜTZEN 🧶</h1>
+        
+        <p class="center">
+            <img src="data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100' height='100' fill='%23ff69b4'/%3E%3Ctext x='50' y='55' font-size='40' text-anchor='middle' fill='white'%3E🧢%3C/text%3E%3C/svg%3E" alt="Mütze">
+        </p>
+        
+        <p class="center">
+            <strong>Handgehäkelt • Einzigartig • Völlig überteuert</strong>
+        </p>
+        
+        <marquee>⚡ NEU ⚡ Jetzt auch in "ungerade" und "asymmetrisch" erhältlich! ⚡ BESTELL JETZT ⚡</marquee>
+        
+        <div class="counter">
+            <strong>👁️ Du bist Besucher Nr.:</strong> <span id="counter">000138</span>
+        </div>
+        
+        <hr>
+        
+        <h2>Warum Phils Mützen kaufen?</h2>
+        
+        <ul>
+            <li>✅ 100% handgemacht (man sieht's)</li>
+            <li>✅ Jede Mütze ein Unikat (weil ich's beim zweiten Mal vergesse wie's geht)</li>
+            <li>✅ Wärmt deinen Kopf UND dein Herz</li>
+            <li>✅ Perfekt für Leute die zu viel Geld haben</li>
+            <li>✅ Das Finanzamt weiß noch nichts davon <span class="blink">👀</span></li>
+        </ul>
+        
+        <hr>
+        
+        <h2>🛒 DAS SORTIMENT</h2>
+        
+        <table class="product-table">
+            <tr>
+                <td>
+                    <p class="center">
+                        <img src="data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='200' height='200' fill='%23e0e0e0'/%3E%3Ctext x='100' y='100' font-size='16' text-anchor='middle' fill='%23666'%3EMütze Bild%3C/text%3E%3Ctext x='100' y='120' font-size='12' text-anchor='middle' fill='%23999'%3Ekommt noch%3C/text%3E%3C/svg%3E" alt="Die Klassische" width="200">
+                    </p>
+                    <p class="center"><strong>"Die Klassische"</strong></p>
+                    <p>Eine normale Mütze. Mehr oder weniger. Bisschen schief vielleicht.</p>
+                    <p class="center"><span class="price">54,99€</span></p>
+                    <p class="center"><a href="#">[BESTELLEN]</a></p>
+                </td>
+                <td>
+                    <p class="center">
+                        <img src="data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='200' height='200' fill='%23ff69b4'/%3E%3Ctext x='100' y='100' font-size='16' text-anchor='middle' fill='%23fff'%3EMütze Bild%3C/text%3E%3Ctext x='100' y='120' font-size='12' text-anchor='middle' fill='%23fff'%3Ekommt noch%3C/text%3E%3C/svg%3E" alt="Die Verrückte" width="200">
+                    </p>
+                    <p class="center"><strong>"Die Verrückte"</strong></p>
+                    <p>Alle Wollreste die ich gefunden hab. Sieht aus wie ein Regenbogen explodiert ist.</p>
+                    <p class="center"><span class="price">69,99€</span></p>
+                    <p class="center"><a href="#">[KAUFEN]</a></p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="center">
+                        <img src="data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='200' height='200' fill='%234169e1'/%3E%3Ctext x='100' y='100' font-size='16' text-anchor='middle' fill='%23fff'%3EMütze Bild%3C/text%3E%3Ctext x='100' y='120' font-size='12' text-anchor='middle' fill='%23fff'%3Ekommt noch%3C/text%3E%3C/svg%3E" alt="Die Winterliche" width="200">
+                    </p>
+                    <p class="center"><strong>"Die Winterliche"</strong></p>
+                    <p>Extra dick. Passt auch über andere Mützen. Praktisch!</p>
+                    <p class="center"><span class="price">79,99€</span></p>
+                    <p class="center"><a href="#">[IN DEN WARENKORB]</a></p>
+                </td>
+                <td>
+                    <p class="center">
+                        <img src="data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='200' height='200' fill='%23333'/%3E%3Ctext x='100' y='90' font-size='60' text-anchor='middle' fill='%23fff'%3E%3F%3F%3F%3C/text%3E%3Ctext x='100' y='130' font-size='14' text-anchor='middle' fill='%23fff'%3EMYSTERY%3C/text%3E%3C/svg%3E" alt="Mystery Box" width="200">
+                    </p>
+                    <p class="center"><strong>"MYSTERY BOX" 🎁</strong></p>
+                    <p>Für mutige Gen Z'ler. Du kriegst... irgendwas. Wir wissen es auch nicht.</p>
+                    <p class="center"><span class="price">89,99€</span></p>
+                    <p class="center"><a href="#">[YOLO]</a></p>
+                </td>
+            </tr>
+        </table>
+        
+        <p class="center"><em>Preise inkl. MwSt. (wahrscheinlich) • Versand: wenn ich Zeit hab</em></p>
+        
+        <hr>
+        
+        <h2>💰 Über die Preise</h2>
+        
+        <p>Ja, das sind echte Preise. Kapitalismus Baby! 💸</p>
+        
+        <p>Jede Mütze braucht ca. 3-40 Stunden Arbeit, gute Wolle, und meine künstlerische Vision. 
+        Das rechtfertigt... äh... diese Preise. Ich bin nur ein Junge mit einer Idee, wenig coding Skills und ohne jegliche Rechtsberatung. Wir wickeln das alles easy per Mail ab. Aber sag's nicht dem Finanzamt, ok?</p>
+        
+        <blockquote style="background: #ffffcc; padding: 10px; border-left: 5px solid #ff0000;">
+            <strong>⚠️ WICHTIG:</strong> Alle Mützen haben Charakter-Features wie "leicht schief", 
+            "ein Ohr wärmer als das andere", oder "kreative Maschenzahl". Das ist Kunst, kein Bug!
+        </blockquote>
+        
+        <hr>
+        
+        <h2>📞 Kontakt</h2>
+        
+        <p>
+            <strong>E-Mail:</strong> <a href="mailto:phil@muetzen.fake">phil@muetzen.fake</a> (landet wahrscheinlich im Spam)<br>
+            <strong>Telefon:</strong> Ich bin Millenial also nein danke<br>
+            <strong>Adresse:</strong> Irgendwo wo's kalt ist<br>
+        </p>
+        
+        <hr>
+        
+        <p class="center">
+            <img src="data:image/svg+xml,%3Csvg width='88' height='31' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='88' height='31' fill='%23000080'/%3E%3Ctext x='44' y='20' font-size='12' text-anchor='middle' fill='%23ffff00' font-weight='bold'%3EUNDER%3C/text%3E%3Ctext x='44' y='28' font-size='8' text-anchor='middle' fill='%23ffff00'%3ECONSTRUCTION%3C/text%3E%3C/svg%3E" alt="Under Construction">
+        </p>
+        
+        <p class="center" style="font-size: 0.8em; color: #666;">
+            © 2026 Phils Mützen • Alle Rechte vorbehalten (glaub ich)<br>
+            Best viewed with Netscape Navigator 4.0 • 800x600 Resolution
+        </p>
+        
+        <p class="center" style="font-size: 0.7em; color: #999;">
+            Diese Seite wurde mit Microsoft FrontPage erstellt
+        </p>
+
+    </td>
+</tr>
+</table>
+
+<script>
+    // Fake Counter der hochzählt
+    let count = 138;
+    setInterval(() => {
+        count += Math.floor(Math.random() * 5);
+        document.getElementById('counter').textContent = String(count).padStart(6, '0');
+    }, 4000);
+    
+    // Alle Links machen Alert
+    document.querySelectorAll('a[href="#"]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Haha nice try! 😂\n\nSchreib einfach ne Mail wenn du echt eine willst.');
+        });
+    });
+</script>
+
+</body>
+</html>
