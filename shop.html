@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index of /shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #f5f5f5;
+            color: #000;
+            padding: 20px;
+        }
+
+        .header {
+            border-bottom: 1px solid #000;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 16px;
+            font-weight: normal;
+        }
+
+        .directory-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .directory-table th {
+            text-align: left;
+            padding: 5px 10px;
+            font-weight: normal;
+            border-bottom: 1px solid #000;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .directory-table th:hover {
+            background: #e0e0e0;
+        }
+
+        .directory-table td {
+            padding: 2px 10px;
+            border-bottom: 1px dotted #ccc;
+        }
+
+        .directory-table tr {
+            transition: background 0.1s;
+        }
+
+        .directory-table tr:hover {
+            background: #008080;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .file-icon {
+            display: inline-block;
+            width: 20px;
+        }
+
+        .price {
+            color: #008000;
+            font-weight: bold;
+        }
+
+        tr:hover .price {
+            color: #00ff00;
+        }
+
+        .size {
+            color: #666;
+        }
+
+        tr:hover .size {
+            color: #fff;
+        }
+
+        .footer {
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #000;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .cart-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #c0c0c0;
+            border: 2px outset #fff;
+            padding: 10px 15px;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+            font-size: 12px;
+            display: none;
+        }
+
+        .cart-status.visible {
+            display: block;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #c0c0c0;
+            border: 2px outset #fff;
+            box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+            min-width: 400px;
+            z-index: 1000;
+        }
+
+        .modal.visible {
+            display: block;
+        }
+
+        .modal-title {
+            background: #000080;
+            color: #fff;
+            padding: 3px 5px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-close {
+            background: #c0c0c0;
+            border: 1px outset #fff;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        .modal-close:active {
+            border-style: inset;
+        }
+
+        .modal-body {
+            padding: 15px;
+        }
+
+        .modal-body pre {
+            background: #fff;
+            border: 1px inset #999;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 11px;
+            white-space: pre-wrap;
+        }
+
+        .product-image {
+            width: 100%;
+            border: 2px inset #999;
+            margin: 10px 0;
+            display: block;
+            image-rendering: pixelated;
+        }
+
+        .button {
+            background: #c0c0c0;
+            border: 2px outset #fff;
+            padding: 4px 12px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            margin-top: 10px;
+        }
+
+        .button:active {
+            border-style: inset;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+            z-index: 999;
+        }
+
+        .overlay.visible {
+            display: block;
+        }
+
+        .date {
+            color: #666;
+        }
+
+        tr:hover .date {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Index of /shop</h1>
+    </div>
+
+    <table class="directory-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Last modified</th>
+                <th>Size</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody id="fileList">
+            <tr data-type="parent">
+                <td><span class="file-icon">📁</span> Parent Directory</td>
+                <td class="date">-</td>
+                <td class="size">-</td>
+                <td class="price">-</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <div>Apache/2.4.41 Server at shop.local Port 80</div>
+        <div style="margin-top: 5px;">
+            Total items: <span id="itemCount">0</span> | 
+            <a href="#" onclick="showImprint(); return false;" style="color: #00f; text-decoration: underline;">Imprint</a>
+        </div>
+    </div>
+
+    <div class="cart-status" id="cartStatus">
+        🛒 Cart: <span id="cartCount">0</span> items
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="modal" id="modal">
+        <div class="modal-title">
+            <span id="modalTitle">Properties</span>
+            <div class="modal-close" onclick="closeModal()">×</div>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+    </div>
+
+    <script>
+        const products = [
+            {name: "vintage_keyboard.exe", size: "2.4M", price: "$89.99", desc: "Mechanical keyboard with authentic click-clack sounds", modified: "2024-11-15 14:23", image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400"},
+            {name: "crt_monitor.dll", size: "15.8M", price: "$249.99", desc: "17-inch CRT with perfect scan lines and minimal glare", modified: "2024-11-20 09:45", image: "https://images.unsplash.com/photo-1551645120-d70bfe84c826?w=400"},
+            {name: "floppy_disk_pack.zip", size: "1.44M", price: "$12.99", desc: "Pack of 10 genuine 3.5-inch floppy disks (formatted)", modified: "2024-12-01 16:30", image: "https://images.unsplash.com/photo-1531492746076-161ca9bcad58?w=400"},
+            {name: "dialup_modem.bin", size: "896K", price: "$34.99", desc: "56K modem - hear that beautiful handshake sound again", modified: "2024-10-28 11:12", image: "https://images.unsplash.com/photo-1606229365485-93a3b8ee0385?w=400"},
+            {name: "trackball_mouse.sys", size: "512K", price: "$45.00", desc: "Ergonomic trackball with satisfying marble action", modified: "2024-11-18 13:55", image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400"},
+            {name: "beige_tower_case.iso", size: "8.2M", price: "$129.99", desc: "Full tower PC case in classic beige with turbo button", modified: "2024-11-25 10:20", image: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=400"},
+            {name: "dot_matrix_printer.drv", size: "3.1M", price: "$175.00", desc: "Continuous feed printer with that iconic sound", modified: "2024-12-03 15:40", image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=400"},
+            {name: "screensaver_collection.scr", size: "4.5M", price: "$9.99", desc: "Includes flying toasters, starfield, and pipes", modified: "2024-11-12 08:15", image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400"},
+        ];
+
+        let cart = [];
+
+        function renderProducts() {
+            const tbody = document.getElementById('fileList');
+            const parentRow = tbody.querySelector('[data-type="parent"]');
+            
+            products.forEach((product, idx) => {
+                const tr = document.createElement('tr');
+                tr.dataset.index = idx;
+                tr.innerHTML = `
+                    <td><span class="file-icon">📄</span> ${product.name}</td>
+                    <td class="date">${product.modified}</td>
+                    <td class="size">${product.size}</td>
+                    <td class="price">${product.price}</td>
+                `;
+                tr.addEventListener('click', () => openProduct(idx));
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('itemCount').textContent = products.length;
+        }
+
+        function openProduct(index) {
+            const product = products[index];
+            const modal = document.getElementById('modal');
+            const overlay = document.getElementById('overlay');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+
+            modalTitle.textContent = product.name + ' Properties';
+            modalBody.innerHTML = `
+                <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.style.display='none'">
+                <pre>File Name:     ${product.name}
+Size:          ${product.size}
+Modified:      ${product.modified}
+Type:          Retro Hardware/Software
+Price:         ${product.price}
+
+Description:
+${product.desc}
+
+Status:        In Stock
+Shipping:      2-3 business days</pre>
+                <!--<button class="button" onclick="addToCart(${index})">Add to Cart</button>-->
+            `;
+
+            modal.classList.add('visible');
+            overlay.classList.add('visible');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('visible');
+            document.getElementById('overlay').classList.remove('visible');
+        }
+
+        function addToCart(index) {
+            const product = products[index];
+            cart.push(product);
+            updateCartStatus();
+            closeModal();
+            
+            // Show confirmation
+            setTimeout(() => {
+                alert(`Added ${product.name} to cart!\n\nTransfer complete: ${product.size}\nTotal: ${product.price}`);
+            }, 100);
+        }
+
+        function updateCartStatus() {
+            const cartStatus = document.getElementById('cartStatus');
+            const cartCount = document.getElementById('cartCount');
+            cartCount.textContent = cart.length;
+            if (cart.length > 0) {
+                cartStatus.classList.add('visible');
+            }
+        }
+
+        function showImprint() {
+            const modal = document.getElementById('modal');
+            const overlay = document.getElementById('overlay');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+
+            modalTitle.textContent = 'Imprint - Legal Information';
+            modalBody.innerHTML = `
+                <pre>═══════════════════════════════════════════
+         RETRO SHOP DIRECTORY
+         Legal Information / Impressum
+═══════════════════════════════════════════
+
+Company Name:
+  Retro Computing Emporium LLC
+
+Address:
+  1337 Nostalgia Lane
+  Silicon Valley, CA 94000
+  United States
+
+Contact:
+  Email: info@retroshop.local
+  Phone: +1 (555) 0-RETRO-1
+
+Managing Director:
+  J. Oldschool
+
+Commercial Register:
+  HRB 12345, District Court Silicon Valley
+
+VAT ID:
+  US123456789
+
+Responsible for Content:
+  J. Oldschool (address as above)
+
+Dispute Resolution:
+  We do not participate in dispute 
+  resolution proceedings before consumer
+  arbitration boards.
+
+═══════════════════════════════════════════
+         © 2024 Retro Shop Directory
+         All rights reserved.
+═══════════════════════════════════════════</pre>
+                <button class="button" onclick="closeModal()">Close</button>
+            `;
+
+            modal.classList.add('visible');
+            overlay.classList.add('visible');
+        }
+
+        document.getElementById('overlay').addEventListener('click', closeModal);
+
+        renderProducts();
+    </script>
+</body>
+</html>
