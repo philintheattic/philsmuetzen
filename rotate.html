@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotate Div</title>
+    <style>
+        .card{
+            width: 400px;
+            height: auto;
+            position: absolute;
+            top: 10%;
+            left: 30%;
+            border: 1px solid black;
+        }
+        .card-title{
+            padding: 1rem;
+            position: relative;
+            height: 2rem;
+            background-color: black;
+            color: white;
+            text-align: center;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        .card-content{
+            padding: 1rem;
+            text-align: justify;
+            font-size: 1.5rem;
+            background-color: aliceblue;
+        }
+        .rot-5deg{
+            transform: rotate(5deg);
+        }
+        .rot-5deg-neg{
+            transform: rotate(-5deg);
+        }
+        .rot-3deg{
+            transform: rotate(3deg);
+        }
+        .rot-3deg-neg{
+            transform: rotate(-3deg);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card rot-5deg" id="1">
+        <div class="card-title" id="1-handle">This is the title of this card</div>
+        <div class="card-content">And this is the content of a card. It could be anything. Like text, images or well that's basically it. lol. Zehn zahme Ziegen zogen Zehn Zentner Zucker zum Zoo. Ein tschechischer Dampfschiffahrtssessioncellist. Watashi wa watashi wa Anime. Wake up wake up. Another day at the factory line.</div>
+    </div>
+
+    <div class="card rot-3deg" id="2">
+        <div class="card-title" id="2-handle">This is the title of this card</div>
+        <div class="card-content">And this is the content of a card. It could be anything. Like text, images or well that's basically it. lol. Zehn zahme Ziegen zogen Zehn Zentner Zucker zum Zoo. Ein tschechischer Dampfschiffahrtssessioncellist. Watashi wa watashi wa Anime. Wake up wake up. Another day at the factory line.</div>
+    </div>
+
+    <div class="card rot-3deg-neg" id="3">
+        <div class="card-title" id="3-handle">This is the title of this card</div>
+        <div class="card-content">And this is the content of a card. It could be anything. Like text, images or well that's basically it. lol. Zehn zahme Ziegen zogen Zehn Zentner Zucker zum Zoo. Ein tschechischer Dampfschiffahrtssessioncellist. Watashi wa watashi wa Anime. Wake up wake up. Another day at the factory line.</div>
+    </div>
+
+    <script>
+        // Make the DIV element draggable:
+        dragElement(document.getElementById("1"));
+        dragElement(document.getElementById("2"));
+        dragElement(document.getElementById("3"));
+
+        function dragElement(elmnt) {
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        if (document.getElementById(elmnt.id + "-handle")) {
+            // if present, the header is where you move the DIV from:
+            document.getElementById(elmnt.id + "-handle").onmousedown = dragMouseDown;
+        } else {
+            // otherwise, move the DIV from anywhere inside the DIV:
+            elmnt.onmousedown = dragMouseDown;
+        }
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+            // stop moving when mouse button is released:
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+        }
+    </script>
+</body>
+</html>

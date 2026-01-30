@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotate Div</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .add-card-btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .add-card-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .card {
+            width: 400px;
+            height: auto;
+            position: absolute;
+            top: 10%;
+            left: 30%;
+            border: 1px solid black;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .card-title {
+            padding: 1rem;
+            position: relative;
+            height: 2rem;
+            background-color: black;
+            color: white;
+            text-align: center;
+            font-size: 2rem;
+            cursor: pointer;
+            outline: none;
+        }
+        
+        .card-title:focus {
+            background-color: #333;
+        }
+        
+        .card-content {
+            padding: 1rem;
+            text-align: justify;
+            font-size: 1.5rem;
+            background-color: aliceblue;
+            outline: none;
+            min-height: 100px;
+        }
+        
+        .card-content:focus {
+            background-color: #e3f2fd;
+        }
+        
+        .rot-5deg {
+            transform: rotate(5deg);
+        }
+        
+        .rot-5deg-neg {
+            transform: rotate(-5deg);
+        }
+        
+        .rot-3deg {
+            transform: rotate(3deg);
+        }
+        
+        .rot-3deg-neg {
+            transform: rotate(-3deg);
+        }
+        
+        .rot-2deg {
+            transform: rotate(2deg);
+        }
+        
+        .rot-2deg-neg {
+            transform: rotate(-2deg);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <button class="add-card-btn" onclick="createNewCard()">+ Add New Card</button>
+    </div>
+
+    <div class="card rot-5deg" id="1">
+        <div class="card-title" id="1-handle">This is the title of this card</div>
+        <div class="card-content">And this is the content of a card. It could be anything. Like text, images or well that's basically it. lol. Zehn zahme Ziegen zogen Zehn Zentner Zucker zum Zoo. Ein tschechischer Dampfschiffahrtssessioncellist. Watashi wa watashi wa Anime. Wake up wake up. Another day at the factory line.</div>
+    </div>
+
+    <div class="card rot-3deg" id="2">
+        <div class="card-title" id="2-handle">This is the title of this card</div>
+        <div class="card-content">And this is the content of a card. It could be anything. Like text, images or well that's basically it. lol. Zehn zahme Ziegen zogen Zehn Zentner Zucker zum Zoo. Ein tschechischer Dampfschiffahrtssessioncellist. Watashi wa watashi wa Anime. Wake up wake up. Another day at the factory line.</div>
+    </div>
+
+    <div class="card rot-3deg-neg" id="3">
+        <div class="card-title" id="3-handle">This is the title of this card</div>
+        <div class="card-content">And this is the content of a card. It could be anything. Like text, images or well that's basically it. lol. Zehn zahme Ziegen zogen Zehn Zentner Zucker zum Zoo. Ein tschechischer Dampfschiffahrtssessioncellist. Watashi wa watashi wa Anime. Wake up wake up. Another day at the factory line.</div>
+    </div>
+
+    <script>
+        // Counter for unique card IDs
+        let cardCounter = 3;
+        
+        // Rotation classes to cycle through
+        const rotationClasses = ['rot-5deg', 'rot-5deg-neg', 'rot-3deg', 'rot-3deg-neg', 'rot-2deg', 'rot-2deg-neg'];
+        
+        // Make the existing DIV elements draggable:
+        dragElement(document.getElementById("1"));
+        dragElement(document.getElementById("2"));
+        dragElement(document.getElementById("3"));
+        
+        // Add double-click listeners to existing cards
+        setupEditListeners(document.getElementById("1"));
+        setupEditListeners(document.getElementById("2"));
+        setupEditListeners(document.getElementById("3"));
+
+        function setupEditListeners(card) {
+            const title = card.querySelector('.card-title');
+            const content = card.querySelector('.card-content');
+            
+            // Double-click on title to edit
+            title.addEventListener('dblclick', function() {
+                this.contentEditable = 'true';
+                this.focus();
+                // Select all text
+                const range = document.createRange();
+                range.selectNodeContents(this);
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+            });
+            
+            // Double-click on content to edit
+            content.addEventListener('dblclick', function() {
+                this.contentEditable = 'true';
+                this.focus();
+            });
+            
+            // Disable editing when clicking outside
+            title.addEventListener('blur', function() {
+                this.contentEditable = 'false';
+            });
+            
+            content.addEventListener('blur', function() {
+                this.contentEditable = 'false';
+            });
+        }
+
+        function createNewCard() {
+            cardCounter++;
+            
+            // Create the card element
+            const card = document.createElement('div');
+            card.className = 'card ' + rotationClasses[cardCounter % rotationClasses.length];
+            card.id = cardCounter.toString();
+            
+            // Random position (but keeping it somewhat on screen)
+            const randomTop = Math.random() * 50 + 10; // 10% to 60%
+            const randomLeft = Math.random() * 50 + 10; // 10% to 60%
+            card.style.top = randomTop + '%';
+            card.style.left = randomLeft + '%';
+            
+            // Create the title
+            const title = document.createElement('div');
+            title.className = 'card-title';
+            title.id = cardCounter + '-handle';
+            title.textContent = 'New Card #' + cardCounter;
+            
+            // Create the content
+            const content = document.createElement('div');
+            content.className = 'card-content';
+            content.textContent = 'Double-click to edit the content of this card. You can write anything you want!';
+            
+            // Append title and content to card
+            card.appendChild(title);
+            card.appendChild(content);
+            
+            // Append card to body
+            document.body.appendChild(card);
+            
+            // Make the new card draggable
+            dragElement(card);
+            
+            // Setup edit listeners
+            setupEditListeners(card);
+        }
+
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            
+            if (document.getElementById(elmnt.id + "-handle")) {
+                // if present, the header is where you move the DIV from:
+                document.getElementById(elmnt.id + "-handle").onmousedown = dragMouseDown;
+            } else {
+                // otherwise, move the DIV from anywhere inside the DIV:
+                elmnt.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                
+                // Don't drag if the element is in edit mode
+                if (e.target.contentEditable === 'true' && e.target.isContentEditable) {
+                    return;
+                }
+                
+                e.preventDefault();
+                
+                // get the mouse cursor position at startup:
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                // call a function whenever the cursor moves:
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // calculate the new cursor position:
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                // set the element's new position:
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                // stop moving when mouse button is released:
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+    </script>
+</body>
+</html>
