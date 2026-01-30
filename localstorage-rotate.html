@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotate Div</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .add-card-btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .add-card-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .card {
+            width: 400px;
+            height: auto;
+            position: absolute;
+            top: 10%;
+            left: 30%;
+            border: 1px solid black;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .card-title {
+            padding: 1rem;
+            position: relative;
+            height: 2rem;
+            background-color: black;
+            color: white;
+            text-align: center;
+            font-size: 2rem;
+            cursor: pointer;
+            outline: none;
+        }
+        
+        .card-title:focus {
+            background-color: #333;
+        }
+        
+        .card-content {
+            padding: 1rem;
+            text-align: justify;
+            font-size: 1.5rem;
+            background-color: aliceblue;
+            outline: none;
+            min-height: 100px;
+        }
+        
+        .card-content:focus {
+            background-color: #e3f2fd;
+        }
+        
+        .rot-5deg {
+            transform: rotate(5deg);
+        }
+        
+        .rot-5deg-neg {
+            transform: rotate(-5deg);
+        }
+        
+        .rot-3deg {
+            transform: rotate(3deg);
+        }
+        
+        .rot-3deg-neg {
+            transform: rotate(-3deg);
+        }
+        
+        .rot-2deg {
+            transform: rotate(2deg);
+        }
+        
+        .rot-2deg-neg {
+            transform: rotate(-2deg);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <button class="add-card-btn" onclick="createNewCard()">+ Add New Card</button>
+        <button class="add-card-btn" onclick="clearAllCards()" style="background-color: #f44336; margin-left: 10px;">Clear All</button>
+    </div>
+
+    <!-- Cards will be dynamically loaded here -->
+
+    <script>
+        // Storage key
+        const STORAGE_KEY = 'rotatingCards';
+        
+        // Counter for unique card IDs
+        let cardCounter = 0;
+        
+        // Rotation classes to cycle through
+        const rotationClasses = ['rot-5deg', 'rot-5deg-neg', 'rot-3deg', 'rot-3deg-neg', 'rot-2deg', 'rot-2deg-neg'];
+        
+        // Default cards data
+        const defaultCards = [
+            {
+                id: 1,
+                title: 'This is the title of this card',
+                content: 'And this is the content of a card. It could be anything. Like text, images or well that\'s basically it. lol. Zehn zahme Ziegen zogen Zehn Zentner Zucker zum Zoo. Ein tschechischer Dampfschiffahrtssessioncellist. Watashi wa watashi wa Anime. Wake up wake up. Another day at the factory line.',
+                rotation: 'rot-5deg',
+                top: '10%',
+                left: '30%'
+            },
+            {
+                id: 2,
+                title: 'This is the title of this card',
+                content: 'And this is the content of a card. It could be anything. Like text, images or well that\'s basically it. lol. Zehn zahme Ziegen zogen Zehn Zentner Zucker zum Zoo. Ein tschechischer Dampfschiffahrtssessioncellist. Watashi wa watashi wa Anime. Wake up wake up. Another day at the factory line.',
+                rotation: 'rot-3deg',
+                top: '10%',
+                left: '30%'
+            },
+            {
+                id: 3,
+                title: 'This is the title of this card',
+                content: 'And this is the content of a card. It could be anything. Like text, images or well that\'s basically it. lol. Zehn zahme Ziegen zogen Zehn Zentner Zucker zum Zoo. Ein tschechischer Dampfschiffahrtssessioncellist. Watashi wa watashi wa Anime. Wake up wake up. Another day at the factory line.',
+                rotation: 'rot-3deg-neg',
+                top: '10%',
+                left: '30%'
+            }
+        ];
+        
+        // Initialize app on load
+        window.addEventListener('DOMContentLoaded', function() {
+            loadCards();
+        });
+        
+        // Load cards from localStorage or use defaults
+        function loadCards() {
+            let cards = [];
+            const savedData = localStorage.getItem(STORAGE_KEY);
+            
+            if (savedData) {
+                try {
+                    cards = JSON.parse(savedData);
+                } catch (e) {
+                    console.error('Error parsing saved data:', e);
+                    cards = defaultCards;
+                }
+            } else {
+                cards = defaultCards;
+            }
+            
+            // Find the highest ID to set cardCounter
+            cardCounter = cards.length > 0 ? Math.max(...cards.map(c => c.id)) : 0;
+            
+            // Render all cards
+            cards.forEach(cardData => {
+                renderCard(cardData);
+            });
+        }
+        
+        // Save all cards to localStorage
+        function saveCards() {
+            const cards = [];
+            document.querySelectorAll('.card').forEach(cardElement => {
+                const cardData = {
+                    id: parseInt(cardElement.id),
+                    title: cardElement.querySelector('.card-title').textContent,
+                    content: cardElement.querySelector('.card-content').textContent,
+                    rotation: Array.from(cardElement.classList).find(cls => cls.startsWith('rot-')),
+                    top: cardElement.style.top,
+                    left: cardElement.style.left
+                };
+                cards.push(cardData);
+            });
+            
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(cards));
+        }
+        
+        // Render a card from data
+        function renderCard(cardData) {
+            const card = document.createElement('div');
+            card.className = 'card ' + cardData.rotation;
+            card.id = cardData.id.toString();
+            card.style.top = cardData.top;
+            card.style.left = cardData.left;
+            
+            const title = document.createElement('div');
+            title.className = 'card-title';
+            title.id = cardData.id + '-handle';
+            title.textContent = cardData.title;
+            
+            const content = document.createElement('div');
+            content.className = 'card-content';
+            content.textContent = cardData.content;
+            
+            card.appendChild(title);
+            card.appendChild(content);
+            document.body.appendChild(card);
+            
+            dragElement(card);
+            setupEditListeners(card);
+        }
+        
+        // Create a new card
+        function createNewCard() {
+            cardCounter++;
+            
+            const cardData = {
+                id: cardCounter,
+                title: 'New Card #' + cardCounter,
+                content: 'Double-click to edit the content of this card. You can write anything you want!',
+                rotation: rotationClasses[cardCounter % rotationClasses.length],
+                top: (Math.random() * 50 + 10) + '%',
+                left: (Math.random() * 50 + 10) + '%'
+            };
+            
+            renderCard(cardData);
+            saveCards();
+        }
+        
+        // Clear all cards
+        function clearAllCards() {
+            if (confirm('Are you sure you want to delete all cards?')) {
+                document.querySelectorAll('.card').forEach(card => card.remove());
+                localStorage.removeItem(STORAGE_KEY);
+                cardCounter = 0;
+            }
+        }
+
+        function setupEditListeners(card) {
+            const title = card.querySelector('.card-title');
+            const content = card.querySelector('.card-content');
+            
+            // Double-click on title to edit
+            title.addEventListener('dblclick', function() {
+                this.contentEditable = 'true';
+                this.focus();
+                // Select all text
+                const range = document.createRange();
+                range.selectNodeContents(this);
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+            });
+            
+            // Double-click on content to edit
+            content.addEventListener('dblclick', function() {
+                this.contentEditable = 'true';
+                this.focus();
+            });
+            
+            // Save when editing finishes
+            title.addEventListener('blur', function() {
+                this.contentEditable = 'false';
+                saveCards();
+            });
+            
+            content.addEventListener('blur', function() {
+                this.contentEditable = 'false';
+                saveCards();
+            });
+        }
+
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            
+            if (document.getElementById(elmnt.id + "-handle")) {
+                document.getElementById(elmnt.id + "-handle").onmousedown = dragMouseDown;
+            } else {
+                elmnt.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                
+                // Don't drag if the element is in edit mode
+                if (e.target.contentEditable === 'true' && e.target.isContentEditable) {
+                    return;
+                }
+                
+                e.preventDefault();
+                
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+                // Save position after dragging
+                saveCards();
+            }
+        }
+    </script>
+</body>
+</html>
